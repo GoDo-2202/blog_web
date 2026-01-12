@@ -1,0 +1,10 @@
+@use 'variables';
+
+body {
+  background: #f8f8f8;
+  font-family: sans-serif;
+
+  h1 {
+    color: variables.$red-color;
+  }
+}
