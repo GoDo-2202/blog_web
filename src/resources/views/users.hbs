@@ -1,0 +1,107 @@
+<h1>User Management</h1>
+
+<!-- Hiển thị lỗi validation -->
+{{#if errors}}
+<div class="alert alert-danger">
+  <ul>
+    {{#each errors}}
+      <li>{{this.msg}}</li>
+    {{/each}}
+  </ul>
+</div>
+{{/if}}
+
+<!-- Add User Form -->
+<form method="POST" action="/users" class="mb-4">
+  <div class="row g-2">
+    <div class="col"><input type="text" name="firstName" placeholder="First Name" class="form-control" required></div>
+    <div class="col"><input type="text" name="lastName" placeholder="Last Name" class="form-control" required></div>
+    <div class="col"><input type="text" name="username" placeholder="Username" class="form-control" required></div>
+    <div class="col"><input type="password" name="password" placeholder="Password" class="form-control" required></div>
+  </div>
+  <div class="row g-2 mt-2">
+    <div class="col"><input type="email" name="email" placeholder="Email" class="form-control"></div>
+    <div class="col"><input type="text" name="phone" placeholder="Phone" class="form-control"></div>
+    <div class="col"><input type="text" name="avatar" placeholder="Avatar URL" class="form-control"></div>
+    <div class="col"><input type="text" name="loginType" placeholder="Login Type" class="form-control"></div>
+    <div class="col"><input type="text" name="address" placeholder="Address" class="form-control"></div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-2">Add User</button>
+</form>
+
+<hr>
+
+<!-- User Table -->
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Username</th>
+      <th>Password</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Avatar</th>
+      <th>Login Type</th>
+      <th>Address</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+    <tr>
+      <td>{{this._id}}</td>
+      <td>{{this.firstName}}</td>
+      <td>{{this.lastName}}</td>
+      <td>{{this.username}}</td>
+      <td>{{this.password}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.phone}}</td>
+      <td>
+        {{#if this.avatar}}
+          <img src="{{this.avatar}}" alt="Avatar" width="50">
+        {{/if}}
+      </td>
+      <td>{{this.loginType}}</td>
+      <td>{{this.address}}</td>
+      <td>
+        <!-- Update -->
+        <form method="POST" action="/users/{{this._id}}?_method=PUT" style="display:inline-block;">
+          <input type="text" name="firstName" placeholder="First Name" class="form-control mb-1">
+          <input type="text" name="lastName" placeholder="Last Name" class="form-control mb-1">
+          <button class="btn btn-sm btn-warning">Update</button>
+        </form>
+
+        <!-- Delete -->
+        <form method="POST" action="/users/{{this._id}}?_method=DELETE" style="display:inline-block;">
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<!-- Pagination -->
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    {{#if (gt page 1)}}
+      <li class="page-item">
+        <a class="page-link" href="/users?page={{subtract page 1}}">Previous</a>
+      </li>
+    {{/if}}
+
+    {{#each (range 1 totalPages)}}
+      <li class="page-item {{#ifEquals this ../page}}active{{/ifEquals}}">
+        <a class="page-link" href="/users?page={{this}}">{{this}}</a>
+      </li>
+    {{/each}}
+
+    {{#if (lt page totalPages)}}
+      <li class="page-item">
+        <a class="page-link" href="/users?page={{add page 1}}">Next</a>
+      </li>
+    {{/if}}
+  </ul>
+</nav>

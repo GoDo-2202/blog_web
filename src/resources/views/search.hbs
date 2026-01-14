@@ -1,0 +1,43 @@
+<div class="mt-4">
+  <form method="POST">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="exampleInputEmail1"
+        name="email"
+        aria-describedby="emailHelp"
+      />
+      <small id="emailHelp" class="form-text text-muted">We'll never share your
+        email with anyone else.</small>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="exampleInputPassword1"
+        ,
+        name="password"
+      />
+    </div>
+    <div class="form-group">
+      <label for="search">Search</label>
+      <input type="text" class="form-control" id="search" , name="search" />
+    </div>
+    <div class="form-group form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="exampleCheck1"
+        ,
+        name="checkbox"
+      />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary" formaction="/search">Search</button>
+    <button type="submit" class="btn btn-primary" formaction="/search?_method=DELETE">Delete</button>
+    <button type="submit" class="btn btn-primary" formaction="/search?_method=PUT">Edit</button>
+  </form>
+</div>

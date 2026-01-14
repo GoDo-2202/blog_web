@@ -1,1 +1,28 @@
-<h1>News Page</h1>
+<h1>News List</h1>
+
+<form method="POST" action="/news">
+  <input type="text" name="title" placeholder="News title" required>
+  <input type="text" name="description" placeholder="Description">
+  <button type="submit">Add News</button>
+</form>
+
+<hr>
+
+<ul>
+  {{#each newsList}}
+    <li>
+      <strong>{{this.title}}</strong> - {{this.description}}
+
+      <!-- Update Form -->
+      <form method="POST" action="/news/{{this._id}}?_method=PUT" style="display:inline-block;">
+        <input type="text" name="title" placeholder="New title">
+        <button>Update</button>
+      </form>
+
+      <!-- Delete Form -->
+      <form method="POST" action="/news/{{this._id}}?_method=DELETE" style="display:inline-block;">
+        <button style="color:red;">Delete</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
