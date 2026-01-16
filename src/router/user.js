@@ -72,8 +72,8 @@ router.post(
   userController.uploadMultipleAvatar
 );
 
-router.get(USER_PATH.GET_IMAGES, protect, apiLimiter, userController.getUserImages);
-router.get(USER_PATH.GET_FILES, protect, apiLimiter, userController.getUserFiles);
+router.get(USER_PATH.GET_IMAGES, protect, checkOwner, apiLimiter, userController.getUserImages);
+router.get(USER_PATH.GET_FILES, protect, checkOwner, apiLimiter, userController.getUserFiles);
 
 router.post(USER_PATH.UPLOAD_FILE, protect, checkOwner, apiLimiter, uploadSingle, userController.uploadOneFile);
 router.post(USER_PATH.UPLOAD_FILES, protect, checkOwner, apiLimiter, uploadFiles, userController.uploadManyFile);

@@ -112,8 +112,8 @@ class UserController {
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const totalImages = await Image.countDocuments({ user: userId });
-    const images = await Image.find({ user: userId })
+    const totalImages = await Image.countDocuments({ userId: userId });
+    const images = await Image.find({ userId: userId })
       .skip(skip)
       .limit(limit)
       .sort({ createdAt: -1 });
@@ -181,7 +181,7 @@ class UserController {
       size: req.file.size,
       width: metadata.width,
       height: metadata.height,
-      user: userId,
+      userId: userId,
     });
 
     user.avatar = imageDoc.urlImage;
@@ -247,7 +247,7 @@ class UserController {
         size: file.size,
         width: newWidth,
         height: newHeight,
-        user: userId,
+        userId: userId,
         dateUpload: new Date(),
       });
 
@@ -272,7 +272,7 @@ class UserController {
     if (!user) throw new AppError("User not found", 404);
 
     // 👉 Lấy toàn bộ file của user (ảnh + file)
-    const filter = { user: userId };
+    const filter = { userId: userId };
 
     const totalFiles = await File.countDocuments(filter);
 
@@ -330,7 +330,7 @@ class UserController {
       width,
       height,
       thumbnail: null,
-      user: userId,
+      userId: userId,
     });
 
     res.status(201).json({
@@ -378,7 +378,7 @@ class UserController {
         width,
         height,
         thumbnail: null,
-        user: userId,
+        userId: userId,
       });
 
       results.push(doc);

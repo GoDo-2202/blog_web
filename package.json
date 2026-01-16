@@ -14,7 +14,8 @@
   "scripts": {
     "start": "nodemon --inspect ./src/index.js",
     "watch": "sass --watch src/resources/scss:src/public/css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node migrations/migrate.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -32,6 +33,7 @@
     "socket.io": "^4.8.3"
   },
   "devDependencies": {
+    "migrate-mongo": "^14.0.7",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.11",
     "sass": "^1.97.2"

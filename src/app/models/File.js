@@ -11,7 +11,7 @@ const fileSchema = new mongoose.Schema(
     width: { type: Number, default: null },
     height: { type: Number, default: null },
     thumbnail: { type: String, default: null },
-    user: {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true

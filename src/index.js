@@ -55,6 +55,8 @@ app.use((req, res, next) => {
 });
 app.use(errorHandler);
 
+console.log("MONGO URI:", process.env.MONGO_URI);
+
 // ==== Start server ====
 server.listen(port, () => {
   console.log(`Server + WebSocket running at http://localhost:${port}`);
