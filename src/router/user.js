@@ -13,50 +13,72 @@ import {
   uploadFiles,
 } from "../app/middleware/multer.js";
 
+import { protect, restrictTo } from "../app/middleware/authMiddleware.js";
+
+import { USER_ROLES } from "../app/constants/roles.js";
+
+import { USER_PATH, ID_PARAM, ROOT_PATH } from "../app/constants/apiPaths.js";
+
+import { CONSTANTS } from "../app/constants/constants.js";
+
+import { 
+  apiLimiter,
+  checkOwner
+} from "../app/middleware/security.js";
+
 const router = express.Router();
 
-router.get("/", paginationValidator, validateRequest, userController.index);
+router.get(ROOT_PATH, protect, apiLimiter, paginationValidator, validateRequest, userController.index);
 
 router.post(
-  "/",
-  uploadAvatar.single("avatar"),
+  ROOT_PATH,
+  apiLimiter,
+  uploadAvatar.single(CONSTANTS.AVATAR),
   createUserValidator,
   validateRequest,
   userController.post
 );
 
 // Update user
-router.put("/:id", updateUserValidator, validateRequest, userController.put);
+router.put(ID_PARAM, protect, updateUserValidator, apiLimiter, validateRequest, userController.put);
 
 // Delete user
 router.delete(
-  "/:id",
+  ID_PARAM,
+  protect,
+  apiLimiter,
   deleteUserValidator,
   validateRequest,
   userController.delete
 );
 
-router.get("/search", userController.search);
+router.get(USER_PATH.SEARCH, protect, apiLimiter, userController.search);
 
 router.post(
-  "/:id/upload-avatar",
-  uploadAvatar.single("avatar"),
+  USER_PATH.UPLOAD_AVATAR,
+  protect,
+  apiLimiter,
+  uploadAvatar.single(CONSTANTS.AVATAR),
   userController.uploadAvatar
 );
 
 router.post(
-  "/:id/upload-multiple",
-  uploadAvatar.array("images", 10),
+  USER_PATH.UPLOAD_MULTIPLE,
+  protect,
+  checkOwner,
+  apiLimiter,
+  restrictTo(USER_ROLES.ADMIN),
+  uploadAvatar.array(CONSTANTS.IMAGES, 10),
   userController.uploadMultipleAvatar
 );
 
-router.get("/:id/images", userController.getUserImages);
-router.get("/:id/files", userController.getUserFiles);
+router.get(USER_PATH.GET_IMAGES, protect, apiLimiter, userController.getUserImages);
+router.get(USER_PATH.GET_FILES, protect, apiLimiter, userController.getUserFiles);
 
-router.post("/:id/upload-file", uploadSingle, userController.uploadOneFile);
-router.post("/:id/upload-files", uploadFiles, userController.uploadManyFile);
+router.post(USER_PATH.UPLOAD_FILE, protect, checkOwner, apiLimiter, uploadSingle, userController.uploadOneFile);
+router.post(USER_PATH.UPLOAD_FILES, protect, checkOwner, apiLimiter, uploadFiles, userController.uploadManyFile);
 
-router.delete("/:id/delete-files", userController.deleteManyFiles);
-router.delete("/:id/delete-images", userController.deleteManyImages);
+router.delete(USER_PATH.DELETE_FILES, protect, checkOwner, apiLimiter, userController.deleteManyFiles);
+router.delete(USER_PATH.DELETE_IMAGES, protect, checkOwner, apiLimiter, userController.deleteManyImages);
 
 export default router;

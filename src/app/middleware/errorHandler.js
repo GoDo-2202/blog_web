@@ -12,7 +12,6 @@ export const errorHandler = (err, req, res, next) => {
     });
   }
 
-  // Lỗi không mong muốn (500)
   res.status(500).json({
     success: false,
     code: "INTERNAL_ERROR",

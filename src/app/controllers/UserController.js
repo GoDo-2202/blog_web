@@ -8,6 +8,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createThumbnail } from "../../utils/imageProcessor.js";
+import { ERROR_MESSAGES } from "../constants/errors.js";
+import { SUCCESS_MESSAGES } from "../constants/success.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
